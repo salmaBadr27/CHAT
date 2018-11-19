@@ -15,11 +15,10 @@ import HandleError from "../../utils/handleError";
 export function* getAllUsers() {
   try {
     console.log("entered users saga");
-    var token = localStorage.getItem("token");
-    var data = yield request(getAllUsersApi());
-    console.log("data in users saga", data.data);
+    var response = yield request(getAllUsersApi());
+    console.log("data in users saga", response.data);
 
-    yield put(getAllUsersSuccess(data.data));
+    yield put(getAllUsersSuccess(response.data));
   } catch (error) {
     console.log("error in users saga", error);
     yield put(getAllUsersFail(HandleError(error)));
@@ -30,10 +29,12 @@ export function* LogIn({ payload }) {
   try {
     console.log("entered login saga");
 
-    var data = yield request(loginAxios(payload));
-    console.log("data in login saga", data);
+    var response = yield request(loginAxios(payload));
+    console.log("data in login saga", response);
 
-    yield put(logInSuccess(data));
+    yield put(
+      logInSuccess({ ...response.data, token: response.headers.token })
+    );
   } catch (error) {
     console.log(error);
     yield put(logInFail(HandleError(error)));
@@ -43,10 +44,12 @@ export function* signUp({ payload }) {
   try {
     console.log("entered login saga");
 
-    var data = yield request(signUpAxios(payload));
-    console.log("data in login saga", data);
+    const response = yield request(signUpAxios(payload));
+    console.log("data in login saga", response.data);
 
-    yield put(signUpSuccess(data));
+    yield put(
+      signUpSuccess({ ...response.data, token: response.headers.token })
+    );
   } catch (error) {
     console.log("error in login saga", error);
     yield put(signUpFail(HandleError(error)));

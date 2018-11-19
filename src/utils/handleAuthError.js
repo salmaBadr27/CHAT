@@ -1,5 +1,3 @@
-import React from "react";
-
 function AuthenticationError(error) {
   switch (error.ErrorMessage) {
     case "Password not valid":

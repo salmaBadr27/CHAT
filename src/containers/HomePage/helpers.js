@@ -1,10 +1,9 @@
-import React from "react";
 import urls from "../../routes";
 
 export const handleSendMessage = (e, receiver, sendedMessage, sendMessage) => {
   e.preventDefault();
   var newMessage = e.target.sendMsg.value;
-  var sendedMessage = {
+  sendedMessage = {
     messageBody: newMessage,
     receiver: receiver,
     token: localStorage.getItem("token")

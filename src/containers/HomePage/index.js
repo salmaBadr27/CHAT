@@ -4,7 +4,6 @@ import Button from "../../components/Button";
 import UserList from "../../components/UserList";
 import MessageList from "../../components/MessageList";
 import styled from "styled-components";
-import Input from "../../components/Input";
 import { SendMessages } from "../HomePage/constants";
 import { handleSendMessage, handleLogout } from "../HomePage/helpers";
 import Form from "../../components/Form";
@@ -14,8 +13,6 @@ import {
   sendMessages
 } from "../../redux modules/message/actions";
 import { getAllUsers } from "../../redux modules/user/actions";
-import messageReducer from "../../redux modules/message/reducers";
-import userReducer from "../../redux modules/user/reducers";
 import { connect } from "react-redux";
 
 const Container = styled.div`
@@ -89,19 +86,6 @@ class HomePage extends React.Component {
   }
 
   render(props) {
-    var ourObjects = [this.props.allMessages, this.props.allUsers];
-    for (let i = 0; i < ourObjects.length; i++) {
-      const element = ourObjects[i];
-      // console.log("element", element);
-      if (element.error) {
-        return (
-          <Load>
-            <h1> Oops {element.error} We are sorry :( </h1>
-          </Load>
-        );
-      }
-    }
-
     if (this.props.allUsers.isWaiting || this.props.allMessages.isWaiting) {
       return (
         <Load>
@@ -109,6 +93,17 @@ class HomePage extends React.Component {
           <Loading type="grid" width={100} height={100} fill="#800080" />
         </Load>
       );
+    }
+    var ourObjects = [this.props.allMessages, this.props.allUsers];
+    for (let i = 0; i < ourObjects.length; i++) {
+      const element = ourObjects[i];
+      if (element.error) {
+        return (
+          <Load>
+            <h1> Oops {element.error} We are sorry :( </h1>
+          </Load>
+        );
+      }
     }
     return (
       <Container>
@@ -174,4 +169,7 @@ const mapDispatchToProps = dispatch => ({
   getAllMessages: () => dispatch(getAllMessages()),
   sendMessages: payload => dispatch(sendMessages(payload))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage);

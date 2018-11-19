@@ -4,7 +4,6 @@ import { LoginFields, SignUpFields } from "./constants";
 import Form from "../../components/Form";
 import Header from "../../components/Header";
 import { handleLogin, handleSignUp } from "../LoginPage/helpers";
-import userReducer from "../../redux modules/user/reducers";
 import { logIn, signUp } from "../../redux modules/user/actions";
 import Loading from "react-loading-components";
 import urls from "../../routes";
@@ -27,16 +26,24 @@ const PageForms = styled.div`
   justify-content: space-around;
   align-items: flex-start;
 `;
+const Load = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  color: #800080;
+  font-family: cursive;
+`;
 
 class LoginPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.loggedUser.data.data &&
-      nextProps.loggedUser.data.data !== this.props.loggedUser.data.data
+      nextProps.loggedUser.data &&
+      nextProps.loggedUser.data !== this.props.loggedUser.data
     ) {
-      // w m4 btsawy el this props.logged
-      var currentUser = nextProps.loggedUser.data.data;
-      var token = nextProps.loggedUser.data.headers.token;
+      var currentUser = nextProps.loggedUser.data;
+      var token = nextProps.loggedUser.data.token;
       console.log("currentUser", currentUser);
       console.log("TOKEN", token);
       var personalData = {
@@ -46,15 +53,18 @@ class LoginPage extends React.Component {
       console.log("PERSONAL DATA", personalData);
       localStorage.setItem("personal data", JSON.stringify(personalData));
       localStorage.setItem("token", token);
-      this.props.history.push(urls.home);
+      if (!nextProps.loggedUser.error) {
+        this.props.history.push(urls.home);
+      }
     }
     if (
-      nextProps.newUser.data.data &&
-      nextProps.newUser.data.data != this.props.newUser.data.data
+      nextProps.newUser.data &&
+      nextProps.newUser.data !== this.props.newUser.data
     ) {
-      var newUser = nextProps.newUser.data.data;
-      var token = nextProps.newUser.data.headers.token;
-      var personalData = {
+      var newUser = nextProps.newUser.data;
+      console.log(newUser);
+      token = nextProps.newUser.data.token;
+      personalData = {
         userName: newUser.userName,
         password: newUser.password,
         mobileNum: newUser.mobileNum,
@@ -62,7 +72,9 @@ class LoginPage extends React.Component {
       };
       localStorage.setItem("personal data", JSON.stringify(personalData));
       localStorage.setItem("token", token);
-      this.props.history.push(urls.home);
+      if (!nextProps.newUser.error) {
+        this.props.history.push(urls.home);
+      }
     }
   }
 
@@ -71,23 +83,35 @@ class LoginPage extends React.Component {
     if (localStorage.getItem("token")) {
       this.props.history.push(urls.home);
     }
-    if (this.props.loggedUser.isWaiting || this.props.newUser.isWaiting) {
-      return (
-        <div>
-          <h1>LOADING</h1>
-          <Loading type="grid" width={100} height={100} fill="#800080" />
-        </div>
-      );
-    }
-    var ourObjects = this.props.loggedUser;
+    var loginObject = this.props.loggedUser;
     if (
-      ourObjects.error === "Password not valid" ||
-      ourObjects.error === "user name dosent exist"
+      loginObject.error === "please check your password again" ||
+      loginObject.error === "user name dosent exist" ||
+      loginObject.error ===
+        "user name not valid are u sure en enta 2esmak kda ? la2 , 2any 2asf" ||
+      loginObject.error === "something unexpected happened "
     ) {
       return (
-        <div>
+        <Load>
           <h1> login tany ya 7beby 34an mz3lksh</h1>
-        </div>
+        </Load>
+      );
+    }
+    var signUpObject = this.props.newUser;
+    console.log(signUpObject);
+    if (signUpObject.error) {
+      return (
+        <Load>
+          <h1> please Try another user name</h1>
+        </Load>
+      );
+    }
+    if (loginObject.isWaiting || signUpObject.isWaiting) {
+      return (
+        <Load>
+          <h1>LOADING</h1>
+          <Loading type="grid" width={100} height={100} fill="#800080" />
+        </Load>
       );
     }
 

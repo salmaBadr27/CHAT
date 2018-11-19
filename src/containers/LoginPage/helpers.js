@@ -1,4 +1,3 @@
-import React from "react";
 
 export const handleLogin = (e, logIn) => {
   e.preventDefault();
@@ -6,7 +5,7 @@ export const handleLogin = (e, logIn) => {
     userName: e.target.username.value,
     password: e.target.pass.value
   };
-  if (user.userName == "" || user.password == "") {
+  if (user.userName === "" || user.password === "") {
     alert("please fill the form correctly");
   } else {
     logIn(user);
@@ -22,10 +21,10 @@ export const handleSignUp = (e, signUp) => {
   };
 
   if (
-    newUser.userName == "" ||
-    newUser.password == "" ||
-    newUser.e_mail == "" ||
-    newUser.mobileNum == ""
+    newUser.userName === "" ||
+    newUser.password === "" ||
+    newUser.e_mail === "" ||
+    newUser.mobileNum === ""
   ) {
     alert("please fill the form correctly");
   } else {
