@@ -84,33 +84,44 @@ class LoginPage extends React.Component {
       this.props.history.push(urls.home);
     }
     var loginObject = this.props.loggedUser;
-    if (
-      loginObject.error === "please check your password again" ||
-      loginObject.error === "user name dosent exist" ||
-      loginObject.error ===
-        "user name not valid are u sure en enta 2esmak kda ? la2 , 2any 2asf" ||
-      loginObject.error === "something unexpected happened "
-    ) {
-      return (
-        <Load>
-          <h1> login tany ya 7beby 34an mz3lksh</h1>
-        </Load>
-      );
-    }
     var signUpObject = this.props.newUser;
-    console.log(signUpObject);
-    if (signUpObject.error) {
-      return (
-        <Load>
-          <h1> please Try another user name</h1>
-        </Load>
-      );
-    }
+
     if (loginObject.isWaiting || signUpObject.isWaiting) {
       return (
         <Load>
           <h1>LOADING</h1>
           <Loading type="grid" width={100} height={100} fill="#800080" />
+        </Load>
+      );
+    }
+    if (
+      loginObject.error === "please check your password again" ||
+      loginObject.error === "user name dosent exist" ||
+      loginObject.error ===
+        "user name not valid are u sure en enta 2esmak kda ? la2 , 2any 2asf"
+    ) {
+      return (
+        <Load>
+          <h1>
+            The user name or password you entered not valid , please Try Again
+          </h1>
+        </Load>
+      );
+    }
+    if (signUpObject.error === "this username is used,please try another one") {
+      return (
+        <Load>
+          <h1> This username is taken ,please Try another user name</h1>
+        </Load>
+      );
+    }
+    if (
+      signUpObject.error === "something unexpected happened " ||
+      loginObject.error === "something unexpected happened "
+    ) {
+      return (
+        <Load>
+          <h1> 404 NOT FOUND</h1>
         </Load>
       );
     }

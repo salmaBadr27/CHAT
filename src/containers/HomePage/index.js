@@ -97,10 +97,10 @@ class HomePage extends React.Component {
     var ourObjects = [this.props.allMessages, this.props.allUsers];
     for (let i = 0; i < ourObjects.length; i++) {
       const element = ourObjects[i];
-      if (element.error) {
+      if (element.error === "something unexpected happened ") {
         return (
           <Load>
-            <h1> Oops {element.error} We are sorry :( </h1>
+            <h1>404 NOt FOUND</h1>
           </Load>
         );
       }
