@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { LoginFields, SignUpFields } from "./constants";
 import Form from "../../components/Form";
 import Header from "../../components/Header";
-import { handleLogin, handleSignUp } from "../LoginPage/helpers";
+import { handleLogin, handleSignUp, isEmpty } from "../LoginPage/helpers";
 import { logIn, signUp } from "../../redux modules/user/actions";
 import Loading from "react-loading-components";
 import urls from "../../routes";
@@ -39,7 +39,7 @@ const Load = styled.div`
 class LoginPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.loggedUser.data &&
+      !isEmpty(nextProps.loggedUser.data) &&
       nextProps.loggedUser.data !== this.props.loggedUser.data
     ) {
       var currentUser = nextProps.loggedUser.data;

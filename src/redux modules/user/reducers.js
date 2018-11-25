@@ -17,12 +17,12 @@ const initialState = {
     isWaiting: false
   },
   login: {
-    data: [],
+    data: {},
     error: "",
     isWaiting: false
   },
   signup: {
-    data: [],
+    data: {},
     error: "",
     isWaiting: false
   }
