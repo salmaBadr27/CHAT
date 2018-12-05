@@ -1,9 +1,8 @@
 import axios from "axios";
 
 function checkStatus(response) {
-  console.log("res", response);
   if (response.status >= 200 && response.status < 300) {
-    const {data} = response;
+    const { data } = response;
     if (data && data.ErrorCode && data.ErrorMessage && data.ErrorDetails) {
       throw response;
     }

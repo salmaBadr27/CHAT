@@ -76,12 +76,10 @@ class HomePage extends React.Component {
     if (!localStorage.getItem("token")) {
       this.props.history.push(urls.login);
     } else {
-      // setTimeout(() => {
         this.props.getAllUsers();
         setTimeout(() => {
           this.props.getAllMessages();
         }, 100);
-      // }, 100);
     }
   }
 

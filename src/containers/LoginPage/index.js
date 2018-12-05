@@ -44,13 +44,12 @@ class LoginPage extends React.Component {
     ) {
       var currentUser = nextProps.loggedUser.data;
       var token = nextProps.loggedUser.data.token;
-      console.log("currentUser", currentUser);
-      console.log("TOKEN", token);
+     
       var personalData = {
         userName: currentUser.userName,
         password: currentUser.password
       };
-      console.log("PERSONAL DATA", personalData);
+     
       localStorage.setItem("personal data", JSON.stringify(personalData));
       localStorage.setItem("token", token);
       if (!nextProps.loggedUser.error) {
@@ -62,7 +61,7 @@ class LoginPage extends React.Component {
       nextProps.newUser.data !== this.props.newUser.data
     ) {
       var newUser = nextProps.newUser.data;
-      console.log(newUser);
+      
       token = nextProps.newUser.data.token;
       personalData = {
         userName: newUser.userName,
@@ -79,7 +78,7 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    console.log("props", this.props);
+   
     if (localStorage.getItem("token")) {
       this.props.history.push(urls.home);
     }

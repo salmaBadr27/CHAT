@@ -12,24 +12,18 @@ import HandleError from "../../utils/handleError";
 
 export function* getAllMessages() {
   try {
-    console.log("entered messages saga");
     var response = yield request(getAllMessagesApi());
-    console.log("data in messages saga", response.data);
     yield put(getAllMessagesSuccess(response.data));
   } catch (error) {
-    console.log("error in messages saga", error);
     yield put(getAllMessagesFail(HandleError(error)));
   }
 }
 
 export function* sendMessage({ payload }) {
   try {
-    console.log("entered send messages saga");
     var response = yield request(sendMessageApi(payload));
-    console.log("data in send message saga", response.data);
     yield put(sendMessagesSuccess(response.data));
   } catch (error) {
-    console.log("error in send message saga", error);
     yield put(sendMessagesFail(HandleError(error)));
   }
 }
